@@ -1,0 +1,3 @@
+
+
+execute_script C:\Users\kal1n\IdeaProjects\labka5\src\huesos.txt
