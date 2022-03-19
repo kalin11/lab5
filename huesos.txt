@@ -2,3 +2,4 @@ info
 clear
 
 
+execute_script hu.txt

@@ -57,8 +57,9 @@ public class ParseFromConsole {
                     else if (x >= 12){
                         System.out.println("в мире максимум 11 оскаров за фильм, вы думаете, что вы лучше..?");
                     }
-
-
+                    else if (x > 2147483647){
+                        System.out.println("вы ввели число, которое уходит за границы (int)");
+                    }
                 }catch (NumberFormatException e){
                     System.out.println("вы ввели не число, попробуйте снова/неверный формат введеных данных");
                 }
@@ -85,7 +86,13 @@ public class ParseFromConsole {
             if (!read.equals("")){
                 try{
                     x = parseInt(read);
-                    return x;
+                    if (x > 2147483647){
+                        System.out.println("вы ввели число, которое уходит за границы (int)");
+                    }
+                    else {
+                        return x;
+                    }
+
                 }catch (NumberFormatException e){
                     System.out.println("вы ввели не число, попробуйте снова/неверный формат введеных данных");
                 }
@@ -114,8 +121,11 @@ public class ParseFromConsole {
                     x = parseInt(read);
                     if (x < 885) {
                         return x;
-                    } else {
+                    } else if (x <= 2147483647) {
                         System.out.println("вы ввели что-то большее, чем 884");
+                    }
+                    else if (x > 2147483647){
+                        System.out.println("вы ввели число, которое уходит за границы (int)");
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("вы ввели не число, попробуйте снова/неверный формат введеных данных");

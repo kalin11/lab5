@@ -1,4 +1,6 @@
 show
 
 
-execute_script huesos.txt
+
+execute_script piska.txt
+

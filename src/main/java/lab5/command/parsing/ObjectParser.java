@@ -22,17 +22,17 @@ public class ObjectParser {
 //
         String name = process.processString("Введите название фильма ", in);
 
-        int x = process.processIntWithoutLimits("Введите Х координату ", in);
+        int x = process.processIntWithoutLimits("Введите Х координату (int) ", in);
 
-        int y = process.processIntY("Введите Y координату ", in);
+        int y = process.processIntY("Введите Y координату (int) ", in);
 
         Date date = Calendar.getInstance().getTime();
 
         System.out.println("Фильм был создан : " + date);
 
-        int oscarCount = process.processInt("Введите число оскаров ", in);
+        int oscarCount = process.processInt("Введите число оскаров (int) ", in);
 
-        Long length = process.processLong("Введите длину ", in);
+        Long length = process.processLong("Введите длину (в минутах) ", in);
 
         Country country = process.processCountry("Введите страну ", in);
 //
@@ -42,9 +42,9 @@ public class ObjectParser {
 //
         String personName = process.processStringForName("Введите имя оператора ", in);
 
-        Float personWeight = process.processFloat("Введите вес операвтора ", in);
+        Float personWeight = process.processFloat("Введите вес операвтора (float) ", in);
 
-        System.out.println("---------------------------");
+//        System.out.println("---------------------------");
         ZonedDateTime zonedDateTime1 = process.processZND("Введите дату ", in);
 
         Coordinates coordinates = new Coordinates(x, y);

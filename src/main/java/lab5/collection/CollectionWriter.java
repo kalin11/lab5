@@ -53,7 +53,7 @@ public class CollectionWriter {
             System.out.println("файл не существует");
         }
         else if (!file.canRead() || !file.canWrite()) {
-            System.out.println("файл не доступен для чтения/записи");
+            System.out.println("файл не доступен для чтения/записи");;
         }
         else if (file.isDirectory()) {
             System.out.println("это не файл, а директория");

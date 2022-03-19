@@ -1,0 +1,8 @@
+
+info
+
+
+execute_script aue.txt
+
+
+execute_script piska.txt

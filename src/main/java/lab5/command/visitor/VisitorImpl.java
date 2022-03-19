@@ -229,83 +229,73 @@ public class VisitorImpl implements Visitor {
         }
     }
 
+    boolean flag = false;
+
     public void visit(ExecuteScriptCommand c) {
         try {
             HashSet<String> paths = new HashSet<>();
             String filename = c.getArgs()[0].toLowerCase(Locale.ROOT);
-            findAllPathForScript(c,paths);
-//            System.out.println(paths);
-            if (paths.contains(filename)) {
-                paths.add(c.getArgs()[0].toLowerCase(Locale.ROOT));
-
-
-//                System.out.println(paths);
+            findAllPathForScript(c,paths,filename);
+            if (flag) {
                 System.out.println("извините, но вы пытаетесь зациклить скрипт и сломать мою прогу(( укажите другой файл");
-                return;
-//                System.out.println(paths);
             }
             else {
                 executeFileCommands(c);
                 paths.add(c.getArgs()[0].toLowerCase(Locale.ROOT));
-
-
-//                System.out.println(c.getArgs()[0]);
-//                System.out.println(paths);
             }
-
-
-
-
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.print("");
         }catch (IOException e){
-            System.out.println("файл(ы) не имеют права на исполнение");
+            System.out.print("");
         }
 
-
-//            String[] cmds = (String[]) Files.readAllLines(Paths.get(filename)).toArray();
-//            System.out.println(cmds);
-//
-//            fileCommands.removeIf(command -> command.equals(" ") || command.equals(""));
-//            System.out.println(fileCommands);
-//
-//            for (int i = 0; i < fileCommands.size(); i++){
-//                Command cmd = commands.get(CommandName.fromString(fileCommands.get(i)));
-//                System.out.println(cmd);
-//            }
     }
 
-    public void findAllPathForScript(ExecuteScriptCommand c, HashSet<String> set) throws IOException {
 
-        //считать весь файл и определить в нем пути, которые указывают на другие файлы
+    public void findAllPathForScript(ExecuteScriptCommand c, HashSet<String> set, String path) throws IOException {
+        set.add(path.toLowerCase(Locale.ROOT));
+        HashSet<String> set1 = new HashSet<>();
+        if (flag){
+            return;
+        }
         try {
-            List<String> allLines = Files.readAllLines(Paths.get(c.getArgs()[0]));
+            List<String> allLines = Files.readAllLines(Paths.get(path));
             for (String s : allLines) {
                 if (s.contains("execute_script") && s.contains(".txt")) {
                     String[] line = s.split(" ");
-                    set.add(line[1].toLowerCase(Locale.ROOT));
-                    File file = new File(line[1].toLowerCase(Locale.ROOT));
-//                    for (String path : paths){
-//
-//                    }
-
+                    set1.add(line[1].toLowerCase(Locale.ROOT));
                 }
             }
-            for (String str : set) {
-                List<String> allFileLines = Files.readAllLines(Paths.get(str));
-                for (String way : allFileLines) {
-                    if (way.contains("execute_script") && way.contains(".txt")) {
-                        String[] l = way.split(" ");
-                        set.add(l[1].toLowerCase(Locale.ROOT));
-                    }
+            for (String str : set1) {
+                if (!set.contains(str)) {
+                    findAllPathForScript(c, set, str);
+                } else {
+                    flag = true;
+                    return;
                 }
             }
-
-        } catch (ConcurrentModificationException e) {
+        }catch (ConcurrentModificationException e) {
             System.out.print("");
         }
-        //execute_script C:\Users\kal1n\IdeaProjects\labka5\src\script.txt
+    }
 
+    public void allowNextFile(ExecuteScriptCommand c) {
+        HashSet<String> hash = new HashSet<>(); //этот сэт будет содержать пут на все файлы, которые встретятся на пути
+        boolean goToNextFile = true;
+        try {
+            List<String> allLines = Files.readAllLines(Paths.get(c.getArgs()[0])); //считываем строки первого файла, ищем среди них с путем на файл
+            for (String s : allLines){
+                if (s.contains("execute_script") && s.contains(".txt")){
+                    String[] line = s.split(" ");
+                    hash.add(line[1]);
+                }
+            }
+            hash.add(c.getArgs()[0]);
+            System.out.println(hash);
+
+        }catch (IOException e){
+            System.out.print("");
+        }
 
     }
 
@@ -314,13 +304,11 @@ public class VisitorImpl implements Visitor {
         try {
             List<String> fileCommands = Files.readAllLines(Paths.get(c.getArgs()[0]));
             fileCommands.removeIf(command -> command.equals(" ") || command.equals(""));
-//            System.out.println(fileCommands);
+            boolean flag = false;
             for (String cmd : fileCommands) {
                 final String[] cmds = cmd.trim().replaceAll("\\s+", " ").split(" ");
-//                System.out.println(Arrays.toString(cmds));
                 final String[] commandsArgs = new String[cmds.length - 1];
                 System.arraycopy(cmds, 1, commandsArgs, 0, cmds.length - 1);
-//                System.out.println(Arrays.toString(commandsArgs));
                 Command command = commands.get(CommandName.fromString(cmds[0]));
 //
                 if (Arrays.toString(new String[]{cmds[0]}).equals("[help]")) {
@@ -454,6 +442,10 @@ public class VisitorImpl implements Visitor {
                     scriptCommand.execute(args, in);
                     this.visit(scriptCommand);
                 }
+                else {
+                    flag = true;
+                }
+
 
 
 //                switch (Arrays.toString(cmds)){
@@ -473,6 +465,9 @@ public class VisitorImpl implements Visitor {
 //                        HeadCommand headCommand = new HeadCommand();
 //                        headCommand.execute(new String[0], in);
 //                        this.visit(headCommand);
+            }
+            if (flag){
+                System.out.println("файл не содержит команд/неверный формат команд");
             }
             //        HelpCommand hc = new HelpCommand();
 //                       hc.execute(null, in);

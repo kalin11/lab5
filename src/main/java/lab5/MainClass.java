@@ -28,10 +28,13 @@ public class MainClass {
             File file = new File(filePath);
             if (!file.exists()) {
                 System.out.println("указаный файл не существует");
+                return;
             } else if (!file.canRead() || !file.canWrite()) {
                 System.out.println("файл не доступен для чтения/записи");
+                return;
             } else if (file.isDirectory()) {
                 System.out.println("это не файл, а директория");
+                return;
             } else {
                 if (file.length() == 0){
                     collection = new LinkedCollection();
