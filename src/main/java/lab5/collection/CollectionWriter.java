@@ -45,6 +45,7 @@ public class CollectionWriter {
     /**
      * This method write all Movie object Fields to File
      * @param path is way where you can find your File
+     * @throws FileNotFoundException  - because there's cannot be a file
      */
 
     public void writeInFile(String path) throws FileNotFoundException{

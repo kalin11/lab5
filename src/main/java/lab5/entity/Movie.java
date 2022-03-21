@@ -140,6 +140,7 @@ public class Movie implements Comparable<Movie>{
     );
 
     public void setCoordinates(int parseX, int parseY) {
+        this.coordinates = new Coordinates(parseX, parseY);
     }
 
     @Override

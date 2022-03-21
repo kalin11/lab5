@@ -327,7 +327,7 @@ public class ParseFromConsole {
      */
 
     public   Float processFloat(String msg, BufferedReader in) throws IOException {
-        System.out.println(msg + "это должно быть больше 0");
+        System.out.println(msg + "это должно быть больше 0, пусть вес среднестатистического человека - 50");
         for (; ;){
             String read = in.readLine().trim().replaceAll("\\s+", " ");
             Float x;
@@ -405,7 +405,7 @@ public class ParseFromConsole {
                     return a;
 
                 }catch (DateTimeParseException e){
-                    System.out.println("вы совершили ошибку в шаблоне даты, проверьте себя. ПРИМЕР - '01/01/1900'");
+                    System.out.println("вы совершили ошибку в шаблоне даты, проверьте себя. пример - '01/01/1900'");
                 }
 
             }else {

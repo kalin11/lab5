@@ -7,6 +7,7 @@ import lab5.command.tasksCommands.ParseFromFile;
 import lab5.command.tasksCommands.with_arguments.*;
 import lab5.command.tasksCommands.without_arguments.*;
 import lab5.entity.*;
+import sun.awt.image.ImageWatched;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -246,7 +247,7 @@ public class VisitorImpl implements Visitor {
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.print("");
         }catch (IOException e){
-            System.out.print("");
+            System.out.println("недостаточно прав(");
         }
 
     }
@@ -254,7 +255,7 @@ public class VisitorImpl implements Visitor {
 
     public void findAllPathForScript(ExecuteScriptCommand c, HashSet<String> set, String path) throws IOException {
         set.add(path.toLowerCase(Locale.ROOT));
-        HashSet<String> set1 = new HashSet<>();
+        LinkedHashSet<String> set1 = new LinkedHashSet<>();
         if (flag){
             return;
         }
@@ -277,26 +278,6 @@ public class VisitorImpl implements Visitor {
         }catch (ConcurrentModificationException e) {
             System.out.print("");
         }
-    }
-
-    public void allowNextFile(ExecuteScriptCommand c) {
-        HashSet<String> hash = new HashSet<>(); //этот сэт будет содержать пут на все файлы, которые встретятся на пути
-        boolean goToNextFile = true;
-        try {
-            List<String> allLines = Files.readAllLines(Paths.get(c.getArgs()[0])); //считываем строки первого файла, ищем среди них с путем на файл
-            for (String s : allLines){
-                if (s.contains("execute_script") && s.contains(".txt")){
-                    String[] line = s.split(" ");
-                    hash.add(line[1]);
-                }
-            }
-            hash.add(c.getArgs()[0]);
-            System.out.println(hash);
-
-        }catch (IOException e){
-            System.out.print("");
-        }
-
     }
 
     public void executeFileCommands(ExecuteScriptCommand c) {
@@ -416,11 +397,17 @@ public class VisitorImpl implements Visitor {
                 }
                 else if (Arrays.toString(new String[]{cmds[0]}).equals("[update]")){
                     String idAndMov = cmd.substring(7);
+//                    System.out.println(idAndMov);
                     String fileds = idAndMov.substring(idAndMov.indexOf(" ") + 1);
+//                    System.out.println(fileds);
                     String id = cmd.replace(fileds, "").substring(7).trim();
+//                    System.out.println(id);
                     try{
                         String f = fileds;
-                        if (getFields(f) == null || getFields(f).getCoordinates().getY() == 2){
+//                        System.out.println(f);
+//                        System.out.println(getFields(f).getCoordinates().getX());
+//                        System.out.println(getFields(f).getOscarsCount());
+                        if (getFields(f) == null || getFields(f).getCoordinates().getY() == -1000000000){
                             System.out.println("проверьте значения Movie у команд 'update'");
                             return;
                         }
@@ -429,7 +416,7 @@ public class VisitorImpl implements Visitor {
                             collection.updateMov(ID, getFields(f));
                         }
                     }catch (NumberFormatException e){
-                        System.out.println("");
+                        System.out.print("");
                     }
                 }
                 else if (Arrays.toString(new String[]{cmds[0]}).equals("[execute_script]")){
@@ -445,34 +432,10 @@ public class VisitorImpl implements Visitor {
                 else {
                     flag = true;
                 }
-
-
-
-//                switch (Arrays.toString(cmds)){
-//                    case "[help]":
-//                        HelpCommand hc = new HelpCommand();
-//                        hc.execute(new String[0], in);
-//                        this.visit(hc);
-//                    case "[info]":
-//                        InfoCommand ic = new InfoCommand();
-//                        ic.execute(new String[0], in);
-//                        this.visit(ic);
-//                    case "[clear]":
-//                        ClearCommand cc = new ClearCommand();
-//                        cc.execute(new String[0], in);
-//                        this.visit(cc);
-//                    default:
-//                        HeadCommand headCommand = new HeadCommand();
-//                        headCommand.execute(new String[0], in);
-//                        this.visit(headCommand);
             }
             if (flag){
                 System.out.println("файл не содержит команд/неверный формат команд");
             }
-            //        HelpCommand hc = new HelpCommand();
-//                       hc.execute(null, in);
-//                      this.visit(hc);
-
         } catch (IOException e) {
             System.out.print("");
         }
@@ -482,17 +445,16 @@ public class VisitorImpl implements Visitor {
     public Movie getFields(String f) {
         String[] fields = f.split(",");
         if (fields.length != 13) {
-
+            System.out.print("");
         }
         else {
             ParseFromFile parse = new ParseFromFile();
-            Coordinates coordinates = new Coordinates(1, 2);
             Person person = new Person("Jora", ZonedDateTime.now(), 98.9F, Country.INDIA);
-            Movie movie = new Movie(1, "Vasya", coordinates, new Date(), 4, 99L, MovieGenre.ACTION, MpaaRating.R, person);
+            Movie movie = new Movie(1, "Vasya", new Coordinates(1,-1000000000), new Date(), 4, 99L, MovieGenre.ACTION, MpaaRating.R, person);
             try {
                 movie.setId(parse.parseID(fields[0]));
                 movie.setName(parse.parseString(fields[1]));
-                if (parse.parseY(fields[3]) > 885) {
+                if (parse.parseY(fields[3]) > 884) {
                     System.out.print("");
                 } else {
                     movie.setCoordinates(parse.parseX(fields[2]), parse.parseY(fields[3]));
@@ -515,46 +477,4 @@ public class VisitorImpl implements Visitor {
         }
         return null;
     }
-
-//    public void visit(ExecuteScriptCommand c) {
-//        HashSet<String> pathesToFiles = new HashSet<>();
-//        String filename = c.getArgs()[0];
-//
-//        //надо считывать 2 раза, в первый раз чтобы заполнить лист всеми командами
-//        //2 раз для выполнения и проверки на повтор
-//        try {
-//            List<String> firstRead = Files.readAllLines(Paths.get(filename));
-//
-//
-//            List<String> result = Files.readAllLines(Paths.get(filename));
-//            System.out.println(result);
-//            System.out.println(result.get(3));
-//            System.out.println("execute_script " + filename);
-//            System.out.println(result.get(3).equals("execute_script " + filename));
-//            if (result.contains("execute_script" + filename)) {
-//                System.out.println("ад");
-//            }
-////            if (result.contains("execute_script " + filename)){
-////                System.out.println("низя");
-////            }
-////            else {
-////                result.removeIf(command -> command.equals(" ") || command.equals(""));
-////                for (String s : result) {
-////                    if (s.contains(".")) {
-////                        pathesToFiles.add(s);
-////                    }
-////                }
-////                System.out.println(pathesToFiles);
-////
-////                System.out.println(result);
-////            }
-////            FileReader reader = new FileReader(c.getArgs()[0]);
-////            System.out.println(String.valueOf(reader.read()));
-//        } catch (FileNotFoundException e) {
-//            System.out.print("");
-//        } catch (IOException e) {
-//            System.out.print("");
-//        }
-//    }
-
-    }
+}
