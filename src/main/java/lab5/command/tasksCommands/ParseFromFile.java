@@ -65,6 +65,7 @@ public class ParseFromFile {
 
     public Date parseDate(String element) throws ParseException {
 //        String year = element.substring()
+        element = element.trim();
         String year = element.substring(24);
         String month = element.substring(4,7);
         if (month.equals("Mar")){
@@ -108,7 +109,7 @@ public class ParseFromFile {
      */
 
     public MovieGenre parseMovieGenre(String element){
-        switch (element.toUpperCase(Locale.ROOT)){
+        switch (element.toUpperCase(Locale.ROOT).trim()){
             case "ACTION":
                 return MovieGenre.ACTION;
             case "HORROR":
@@ -125,7 +126,7 @@ public class ParseFromFile {
      */
 
     public MpaaRating parseMpaaRating(String element){
-        switch (element.toUpperCase(Locale.ROOT)){
+        switch (element.toUpperCase(Locale.ROOT).trim()){
             case "G":
                 return MpaaRating.G;
             case "R":
@@ -142,7 +143,7 @@ public class ParseFromFile {
      * @return - Country value
      */
     public Country parseCountry(String element){
-        switch (element.toUpperCase(Locale.ROOT)){
+        switch (element.toUpperCase(Locale.ROOT).trim()){
             case "INDIA":
                 return Country.INDIA;
             case "JAPAN":
@@ -170,7 +171,7 @@ public class ParseFromFile {
     public ZonedDateTime parseZND(String element){
 //        1903-01-01T12:12:12.900+02:30:17[Europe/Moscow];
 
-        return ZonedDateTime.parse(element);
+        return ZonedDateTime.parse(element.trim());
 
     }
 

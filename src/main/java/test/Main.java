@@ -115,7 +115,7 @@ public class Main{
 
         movie.setId(parse.parseID(a[0]));
         movie.setName(parse.parseString(a[1]));
-        movie.setCoordinates(coordinates);
+        movie.setCoordinates(parse.parseX(a[2]),parse.parseY(a[3]));
         movie.setCreationDate(parse.parseDate(a[4]));
         movie.setOscarsCount(parse.parseOscarsCount(a[5]));
         movie.setLength(parse.parseLength(a[6]));

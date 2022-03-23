@@ -396,6 +396,7 @@ public class VisitorImpl implements Visitor {
                     }
                 }
                 else if (Arrays.toString(new String[]{cmds[0]}).equals("[update]")){
+//                    System.out.println(cmd);
                     String idAndMov = cmd.substring(7);
 //                    System.out.println(idAndMov);
                     String fileds = idAndMov.substring(idAndMov.indexOf(" ") + 1);
@@ -407,6 +408,7 @@ public class VisitorImpl implements Visitor {
 //                        System.out.println(f);
 //                        System.out.println(getFields(f).getCoordinates().getX());
 //                        System.out.println(getFields(f).getOscarsCount());
+//                        System.out.println(getFields(f).getCoordinates());
                         if (getFields(f) == null || getFields(f).getCoordinates().getY() == -1000000000){
                             System.out.println("проверьте значения Movie у команд 'update'");
                             return;

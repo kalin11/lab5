@@ -22,50 +22,47 @@ public class MainClass {
         LinkedCollection collection = new LinkedCollection();
         HashMap<CommandName, Command> commands = initCommands();
 
-
-        while(pathIsCorrect) {
-            String filePath = args[0];
-            File file = new File(filePath);
-            if (!file.exists()) {
-                System.out.println("указаный файл не существует");
-                return;
-            } else if (!file.canRead() || !file.canWrite()) {
-                System.out.println("файл не доступен для чтения/записи");
-                return;
-            } else if (file.isDirectory()) {
-                System.out.println("это не файл, а директория");
-                return;
-            } else {
-                if (file.length() == 0){
-                    collection = new LinkedCollection();
-                    pathIsCorrect = false;
-                }
-                else{
-                    CollectionReader collectionReader = new CollectionReader(collection);
-                    collection = collectionReader.read(filePath);
-                    pathIsCorrect = false;
+        if (args.length == 0) {
+            System.out.println("не введен путь к файлу");
+        } else {
+            while (pathIsCorrect) {
+                String filePath = args[0];
+                File file = new File(filePath);
+                if (!file.exists()) {
+                    System.out.println("указаный файл не существует");
+                    return;
+                } else if (!file.canRead() || !file.canWrite()) {
+                    System.out.println("файл не доступен для чтения/записи");
+                    return;
+                } else if (file.isDirectory()) {
+                    System.out.println("это не файл, а директория");
+                    return;
+                } else {
+                    if (file.length() == 0) {
+                        collection = new LinkedCollection();
+                        pathIsCorrect = false;
+                    } else {
+                        CollectionReader collectionReader = new CollectionReader(collection);
+                        collection = collectionReader.read(filePath);
+                        pathIsCorrect = false;
+                    }
                 }
             }
-        }
 
 
+            VisitorImpl visitor = new VisitorImpl(collection, commands);
 
 
-
-        VisitorImpl visitor = new VisitorImpl(collection, commands);
-
-
-
-
-        CommandLineParser parser = new CommandLineParser(new BufferedReader(new InputStreamReader(System.in)), commands);
-        System.out.println("Добро пожаловать. Введите команду.\nЧтобы получить список команд, начертите 'help'");
-        try {
-            while (!parser.shouldClose()) {
-                System.out.print(">>> ");
-                parser.readLine(visitor);
+            CommandLineParser parser = new CommandLineParser(new BufferedReader(new InputStreamReader(System.in)), commands);
+            System.out.println("Добро пожаловать. Введите команду.\nЧтобы получить список команд, начертите 'help'");
+            try {
+                while (!parser.shouldClose()) {
+                    System.out.print(">>> ");
+                    parser.readLine(visitor);
+                }
+            } catch (IOException e) {
+                System.out.println();
             }
-        } catch (IOException e) {
-            System.out.println();
         }
     }
 
@@ -90,4 +87,5 @@ public class MainClass {
         //todo script
         return commands;
     }
+
 }

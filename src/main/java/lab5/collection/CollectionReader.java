@@ -101,6 +101,7 @@ public class CollectionReader {
         }catch (FileNotFoundException e){
             System.out.println("файл не найден");
         }catch (ParseException e){
+            System.out.println("словили ParseExeception");
         }
 
         return result;
