@@ -36,6 +36,7 @@ public class AddCommand implements Command {
         try {
             movie = objectParser.parseObject(in);
             System.out.println("id фильма - "+movie.getId());
+            System.out.println("дата создания фильма -" +movie.getCreationDate());
         } catch (IOException e) {
             System.out.println("При добавлении мы не смогли добавить.");
         } finally {

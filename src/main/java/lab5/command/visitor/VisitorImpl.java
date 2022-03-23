@@ -282,6 +282,7 @@ public class VisitorImpl implements Visitor {
 
     public void executeFileCommands(ExecuteScriptCommand c) {
 
+
         try {
             List<String> fileCommands = Files.readAllLines(Paths.get(c.getArgs()[0]));
             fileCommands.removeIf(command -> command.equals(" ") || command.equals(""));
@@ -415,7 +416,9 @@ public class VisitorImpl implements Visitor {
                         }
                         else{
                             long ID = Long.parseLong(id);
+                            Movie movie = getFields(f);
                             collection.updateMov(ID, getFields(f));
+//                            collection.getMovie().setCreationDate(getFields(f).getCreationDate());
                         }
                     }catch (NumberFormatException e){
                         System.out.print("");

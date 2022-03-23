@@ -202,7 +202,8 @@ public class LinkedCollection {
                         if (count > 0) {
                             linkedCollection.movie = parser.parseObject(in);
                             linkedCollection.getMovie().setId(id);
-                            System.out.println(linkedCollection.getMovie().getId());
+                            linkedCollection.getMovie().setCreationDate(mov.getCreationDate());
+//                            System.out.println(linkedCollection.getMovie().getId());
                             list.set(index, linkedCollection.getMovie());
                         }
                         System.out.println(list);
@@ -327,7 +328,7 @@ public class LinkedCollection {
                     m.setId(id);
                     m.setName(movie.getMovieName());
                     m.setCoordinates(movie.getCoordinates());
-                    m.setCreationDate(movie.getCreationDate());
+//                    m.setCreationDate(movie.getCreationDate());
                     m.setOscarsCount(movie.getOscarsCount());
                     m.setLength(movie.getLength());
                     m.setGenre(movie.getGenre());

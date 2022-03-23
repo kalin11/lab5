@@ -28,7 +28,7 @@ public class ObjectParser {
 
         Date date = Calendar.getInstance().getTime();
 
-        System.out.println("Фильм был создан : " + date);
+//        System.out.println("Фильм был создан : " + date);
 
         int oscarCount = process.processInt("Введите число оскаров (int) ", in);
 

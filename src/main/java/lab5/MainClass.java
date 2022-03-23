@@ -9,6 +9,7 @@ import lab5.command.parsing.CommandLineParser;
 import lab5.command.tasksCommands.with_arguments.*;
 import lab5.command.tasksCommands.without_arguments.*;
 import lab5.command.visitor.VisitorImpl;
+import lab5.entity.Movie;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -62,6 +63,8 @@ public class MainClass {
                 }
             } catch (IOException e) {
                 System.out.println();
+            }catch (StringIndexOutOfBoundsException e){
+                System.out.println("что");
             }
         }
     }

@@ -35,6 +35,6 @@ public class Person {
     }
 
     public String toString(){
-        return getPersonsName() + ", " + getBirthday().toString() + ", " + getWeight() + ", " + getNationality();
+        return getPersonsName() + "," + getBirthday().toString() + "," + getWeight() + "," + getNationality();
     }
 }

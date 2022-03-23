@@ -18,6 +18,6 @@ public class Coordinates {
         return y;
     }
     public String toString(){
-        return getX() +", "+getY();
+        return getX() +","+getY();
     }
 }

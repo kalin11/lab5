@@ -75,7 +75,7 @@ public class CollectionReader {
                                             list.get(9).getClass().equals(String.class) &&
                                             list.get(10).getClass().equals(String.class) &&
                                             genres.contains(genre) && ratings.contains(rating) && countries.contains(country)) {
-                                        System.out.println("фильм с названием " + list.get(1) + " был успешно добавлен");
+//                                        System.out.println("фильм с названием " + list.get(1) + " был успешно добавлен");
                                         return true;
 
                                     } else {
@@ -101,7 +101,7 @@ public class CollectionReader {
         }catch (FileNotFoundException e){
             System.out.println("файл не найден");
         }catch (ParseException e){
-            System.out.println("словили ParseExeception");
+            System.out.print("у каких-то объектов неверный формат данных \n");
         }
 
         return result;
